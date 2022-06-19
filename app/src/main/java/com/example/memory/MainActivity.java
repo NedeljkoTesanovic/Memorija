@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         first = true;
         tl_c = findViewById(R.id.TL_Cards);
 
-        //Load cards and assign numbers
+        //Load images
 
         img = new int[30];
         img[0] = R.drawable.i0;
@@ -62,27 +62,11 @@ public class MainActivity extends AppCompatActivity {
         img[12] = R.drawable.i12;
         img[13] = R.drawable.i13;
         img[14] = R.drawable.i14;
-        //15 is the front cover, so skip it (oversight in development)
-        /* img[15] = R.drawable.i16;
-        img[16] = R.drawable.i17;
-        img[17] = R.drawable.i18;
-        img[18] = R.drawable.i19;
-        img[19] = R.drawable.i20;
-        img[20] = R.drawable.i21;
-        img[21] = R.drawable.i22;
-        img[22] = R.drawable.i23;
-        img[23] = R.drawable.i24;
-        img[24] = R.drawable.i25;
-        img[25] = R.drawable.i26;
-        img[26] = R.drawable.i27;
-        img[27] = R.drawable.i28;
-        img[28] = R.drawable.i29;
-        img[29] = R.drawable.i30;*/
 
+        //Initialize cards
         iv = new ImageView[30];
         cards = new Integer[30];
         matched = new boolean[30];
-        //Initialize cards
         for(int i = 0; i < 30; i++)
             cards[i] = i;
         //Shuffle cards
@@ -105,20 +89,22 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
     private void operateCard(ImageView ivt, int uiid){
-        ivt.setImageResource(img[cards[uiid]%15]);
-        if(first){
+        ivt.setImageResource(img[cards[uiid]%15]); //The UI card that was clicked on
+
+        if(first){ //Only one card flipped over
             ivs1 = findViewById(ivt.getId());
             card1 = uiid;
             //Disable input on flipped card
             iv[uiid].setEnabled(false);
             first = false;
-        } else {
+        } else { //Two cards flipped over
             ivs2 = findViewById(ivt.getId());
             card2 = uiid;
             first = true;
             //Check if flipped cards match
-            if(cards[card1]%15 == cards[card2]%15){ //match
+            if(cards[card1]%15 == cards[card2]%15){ //match; Assign points
                 if(tv_c.getText().equals("←")){
                     score1++;
                     tv_p1.setText("Player 1: " + score1);
@@ -130,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     matched[card1] = true;
                     matched[card2] = true;
                 }
-                //Check end condition
+                //Check end condition; Play again dialogue
                 if(score1 + score2 >= 15){
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
                     alertDialogBuilder.setMessage("Game over!! Scoreboard:\nPlayer 1: " + score1 + "\nPlayer 2: " + score2)
@@ -150,20 +136,20 @@ public class MainActivity extends AppCompatActivity {
                 for(int i = 0; i < 30; i++){
                     iv[i].setEnabled(false);
                 }
-                final Handler handler = new Handler();
+                final Handler handler = new Handler(); //Keep the cards showing for 2 seconds, then flip back
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         ivs1.setImageResource(R.drawable.i15);
                         ivs2.setImageResource(R.drawable.i15);
 
-                        //Switch players
+                        //Switch players' turns
                         if(tv_c.getText().equals("←")){
                             tv_c.setText("→");
                         } else {
                             tv_c.setText("←");
                         }
-                        //Re-enable input
+                        //Re-enable input on cards that weren't matched yet
                         for(int i = 0; i < 30; i++) {
                             if (!matched[i]) {
                                 iv[i].setEnabled(true);
