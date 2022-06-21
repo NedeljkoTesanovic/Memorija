@@ -84,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             iv[finalI].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    operateCard(iv[finalI], Integer.parseInt((String) v.getTag()));
+                    if(iv[finalI].isEnabled())
+                        operateCard(iv[finalI], Integer.parseInt((String) v.getTag()));
                 }
             });
         }

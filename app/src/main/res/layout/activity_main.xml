@@ -31,6 +31,7 @@
                 android:layout_weight="1"
                 android:text="Player 1: 0"
                 android:textAlignment="center"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -40,6 +41,7 @@
                 android:layout_weight="1"
                 android:text="←"
                 android:textAlignment="center"
+                android:textSize="34sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -49,6 +51,7 @@
                 android:layout_weight="1"
                 android:text="Player 2: 0"
                 android:textAlignment="center"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </TableRow>
 
